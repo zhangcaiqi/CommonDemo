@@ -11,4 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"/>
+    <Button
+        android:id="@+id/jump_to_page"
+        android:text="分页测试"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/send_msg_btn"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

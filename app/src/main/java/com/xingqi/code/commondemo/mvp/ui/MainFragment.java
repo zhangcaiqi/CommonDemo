@@ -1,6 +1,5 @@
 package com.xingqi.code.commondemo.mvp.ui;
 
-import android.util.Log;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
@@ -12,7 +11,7 @@ import com.xingqi.code.commondemo.mvp.model.HotKeyWordModel;
 import com.xingqi.code.commondemo.mvp.model.entity.HotKeyWord;
 import com.xingqi.code.commondemo.mvp.presenter.HotKeyWordPresenter;
 import com.xingqi.code.commonlib.base.BaseFragment;
-import com.xingqi.code.commonlib.mvp.BasePresenter;
+import com.xingqi.code.commonlib.utils.CommonUtils;
 
 import java.util.List;
 
@@ -22,6 +21,8 @@ import butterknife.OnClick;
 public class MainFragment extends BaseFragment<HotKeyWordPresenter> implements HotKeyWordContract.View {
     @BindView(R.id.send_msg_btn)
     Button sendMsgBtn;
+    @BindView(R.id.jump_to_page)
+    Button jumpToPage;
 
     @Override
     public int getLayoutId() {
@@ -62,7 +63,7 @@ public class MainFragment extends BaseFragment<HotKeyWordPresenter> implements H
 
     @Override
     protected HotKeyWordPresenter initPresenter() {
-        return new HotKeyWordPresenter(new HotKeyWordModel(),this);
+        return new HotKeyWordPresenter(new HotKeyWordModel(), this);
     }
 
     @Override
@@ -75,5 +76,10 @@ public class MainFragment extends BaseFragment<HotKeyWordPresenter> implements H
     @Override
     public void showMessage(@NonNull String message) {
 
+    }
+
+    @OnClick(R.id.jump_to_page)
+    public void jumpToPage() {
+        CommonUtils.startActivity(RecyclePaginateActivity.class);
     }
 }

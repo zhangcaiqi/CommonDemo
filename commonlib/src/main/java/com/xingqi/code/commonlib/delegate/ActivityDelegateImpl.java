@@ -9,14 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.threshold.rxbus2.RxBus;
-import com.xingqi.code.commonlib.base.DefaultAppStyleImpl;
 import com.xingqi.code.commonlib.base.BaseApplication;
 import com.xingqi.code.commonlib.base.IActivity;
-import com.xingqi.code.commonlib.base.IAppStyle;
-import com.xingqi.code.commonlib.swipeback.SwipeBackActivityHelper;
-import com.xingqi.code.commonlib.swipeback.SwipeBackLayout;
-import com.xingqi.code.commonlib.utils.AppManager;
-import com.xingqi.code.commonlib.utils.ScreenUtil;
+import com.xingqi.code.commonlib.manager.AppManager;
 
 import java.util.List;
 
@@ -25,6 +20,7 @@ public class ActivityDelegateImpl implements ActivityDelegate{
 
     private Activity activity;
     private IActivity iActivity;
+    private AppManager mAppManager = AppManager.getAppManager();
 
 
     public ActivityDelegateImpl(Activity activity) {
@@ -36,7 +32,8 @@ public class ActivityDelegateImpl implements ActivityDelegate{
         if(isAppSelfActivity()){
             iActivity = (IActivity) activity;
         }
-        AppManager.getInstance().addActivity(activity);
+
+        mAppManager.addActivity(activity);
         if(iActivity.registerRxBus()){
             RxBus.getDefault().register(activity);
         }
@@ -58,7 +55,7 @@ public class ActivityDelegateImpl implements ActivityDelegate{
 
     @Override
     public void onResume() {
-
+        mAppManager.setCurrentActivity(activity);
     }
 
     @Override
@@ -68,7 +65,9 @@ public class ActivityDelegateImpl implements ActivityDelegate{
 
     @Override
     public void onStop() {
-
+        if (mAppManager.getCurrentActivity() == activity) {
+            mAppManager.setCurrentActivity(null);
+        }
     }
 
     @Override
@@ -86,7 +85,7 @@ public class ActivityDelegateImpl implements ActivityDelegate{
         if(iActivity.registerRxBus()){
             RxBus.getDefault().unregister(this);
         }
-        AppManager.getInstance().finishActivity(activity);
+        mAppManager.removeActivity(activity);
     }
 
     private boolean isAppSelfActivity(){
