@@ -17,4 +17,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/send_msg_btn"/>
+    <Button
+        android:id="@+id/jump_to_complex"
+        android:text="复合列表"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/jump_to_page"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

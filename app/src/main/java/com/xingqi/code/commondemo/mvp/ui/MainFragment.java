@@ -23,6 +23,8 @@ public class MainFragment extends BaseFragment<HotKeyWordPresenter> implements H
     Button sendMsgBtn;
     @BindView(R.id.jump_to_page)
     Button jumpToPage;
+    @BindView(R.id.jump_to_complex)
+    Button jumpToComplex;
 
     @Override
     public int getLayoutId() {
@@ -81,5 +83,10 @@ public class MainFragment extends BaseFragment<HotKeyWordPresenter> implements H
     @OnClick(R.id.jump_to_page)
     public void jumpToPage() {
         CommonUtils.startActivity(RecyclePaginateActivity.class);
+    }
+
+    @OnClick(R.id.jump_to_complex)
+    public void jumpToComplex() {
+        CommonUtils.startActivity(ComplexActivity.class);
     }
 }
