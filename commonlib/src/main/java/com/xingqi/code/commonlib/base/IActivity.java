@@ -2,9 +2,9 @@ package com.xingqi.code.commonlib.base;
 
 public interface IActivity extends IToolbar{
 
-    boolean isRootPage();
-
     int getLayoutId();
+
+    boolean isRootPage();
 
     void release();
 

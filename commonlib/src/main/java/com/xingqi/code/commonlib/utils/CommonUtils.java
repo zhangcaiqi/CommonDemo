@@ -227,6 +227,10 @@ public class CommonUtils {
         return View.inflate(context, detailScreen, null);
     }
 
+    public static View inflate(Context context,int layoutResId,ViewGroup root){
+        return View.inflate(context,layoutResId,root);
+    }
+
     /**
      * 单例 toast
      *
