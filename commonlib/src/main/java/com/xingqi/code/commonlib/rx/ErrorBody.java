@@ -1,6 +1,6 @@
-package com.xingqi.code.commonlib.mvp;
+package com.xingqi.code.commonlib.rx;
 
-public class ErrorBodyDTO {
+public class ErrorBody {
     private String errCode;
     private String errMsg;
 

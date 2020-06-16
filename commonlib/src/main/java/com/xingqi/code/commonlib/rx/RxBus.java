@@ -1,4 +1,4 @@
-package com.xingqi.code.commonlib.utils;
+package com.xingqi.code.commonlib.rx;
 
 
 import io.reactivex.BackpressureStrategy;

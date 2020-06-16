@@ -9,7 +9,9 @@ import com.xingqi.code.commonlib.R;
 import com.xingqi.code.commonlib.mvp.BasePresenter;
 import com.xingqi.code.commonlib.swipeback.SwipeBackActivityHelper;
 import com.xingqi.code.commonlib.swipeback.SwipeBackLayout;
+import com.xingqi.code.commonlib.utils.CommonUtils;
 import com.xingqi.code.commonlib.utils.ScreenUtil;
+import com.xingqi.code.commonlib.utils.ToastUtil;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -109,5 +111,25 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         mSwipeBackLayout.setEnableGesture(isSupportSwipeBack());
         mSwipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
         mSwipeBackLayout.setEdgeSize(ScreenUtil.dip2px(this,30));
+    }
+
+    //返回键监听
+    @Override
+    public void onBackPressed() {
+        if(isRootPage()){
+            exitAfterTwice();
+        }else{
+            super.onBackPressed();
+        }
+
+    }
+    private long exitTime = 0;
+    private void exitAfterTwice(){
+        if ((System.currentTimeMillis() - exitTime) > 2000) {
+            ToastUtil.toast(this,"再按一次退出程序");
+            exitTime = System.currentTimeMillis();
+        } else {
+            CommonUtils.exitApp();
+        }
     }
 }

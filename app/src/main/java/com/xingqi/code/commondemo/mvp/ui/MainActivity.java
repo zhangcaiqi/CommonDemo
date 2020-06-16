@@ -1,5 +1,6 @@
 package com.xingqi.code.commondemo.mvp.ui;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.FrameLayout;
@@ -7,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.threshold.rxbus2.annotation.RxSubscribe;
 import com.threshold.rxbus2.util.EventThread;
 import com.xingqi.code.commondemo.R;
@@ -15,12 +17,14 @@ import com.xingqi.code.commondemo.mvp.model.HotKeyWordModel;
 import com.xingqi.code.commondemo.mvp.model.entity.HotKeyWord;
 import com.xingqi.code.commondemo.mvp.presenter.HotKeyWordPresenter;
 import com.xingqi.code.commonlib.base.BaseActivity;
-import com.xingqi.code.commonlib.utils.RxBus;
+import com.xingqi.code.commonlib.rx.ResponseException;
+import com.xingqi.code.commonlib.rx.RxErrorHandler;
+import com.xingqi.code.commonlib.utils.PermissionUtil;
+import com.xingqi.code.commonlib.utils.ToastUtil;
 
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.functions.Consumer;
 
 public class MainActivity extends BaseActivity<HotKeyWordPresenter> implements HotKeyWordContract.View {
     private static final String TAG = "MainActivity";
@@ -29,9 +33,33 @@ public class MainActivity extends BaseActivity<HotKeyWordPresenter> implements H
     @BindView(R.id.container)
     FrameLayout container;
 
+    private RxPermissions rxPermissions;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        rxPermissions = new RxPermissions(this);
+        PermissionUtil.callPhone(new PermissionUtil.RequestPermission() {
+            @Override
+            public void onRequestPermissionSuccess() {
+                ToastUtil.toast(MainActivity.this,"请求成功");
+            }
+
+            @Override
+            public void onRequestPermissionFailure(List<String> permissions) {
+                ToastUtil.toast(MainActivity.this,"请求失败");
+            }
+
+            @Override
+            public void onRequestPermissionFailureWithAskNeverAgain(List<String> permissions) {
+                ToastUtil.toast(MainActivity.this,"不在询问");
+            }
+        }, rxPermissions, new RxErrorHandler() {
+            @Override
+            public ResponseException handleException(Throwable e) {
+                return null;
+            }
+        });
     }
 
     @Override
@@ -40,8 +68,13 @@ public class MainActivity extends BaseActivity<HotKeyWordPresenter> implements H
     }
 
     @Override
-    public boolean isRootPage() {
+    public boolean displayNavigateIcon() {
         return false;
+    }
+
+    @Override
+    public boolean isRootPage() {
+        return true;
     }
 
     @Override

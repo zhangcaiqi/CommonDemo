@@ -31,7 +31,10 @@ public class FragmentDelegateImpl implements FragmentDelegate {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         if(fragment instanceof IFragment){
             iFragment = (IFragment) fragment;
+        }else{
+            return;
         }
+
         Activity activity = fragment.getActivity();
         IAppStyle iAppStyle = new DefaultAppStyleImpl.Builder(activity)
                 .setDarkStatusBarText(iFragment.darkStatusBarText())

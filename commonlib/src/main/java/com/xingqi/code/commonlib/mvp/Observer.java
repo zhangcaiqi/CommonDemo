@@ -1,6 +1,9 @@
 package com.xingqi.code.commonlib.mvp;
 
 
+import com.xingqi.code.commonlib.rx.DefaultRxErrorHandler;
+import com.xingqi.code.commonlib.rx.ResponseException;
+
 import io.reactivex.disposables.Disposable;
 
 
@@ -9,7 +12,7 @@ public abstract class Observer<T> implements io.reactivex.Observer<T> {
     @Override
     public void onSubscribe(Disposable d) {
         //添加订阅关系
-        OnDisposable(d);
+        OnAddDisposable(d);
         onStart();
     }
 
@@ -21,7 +24,7 @@ public abstract class Observer<T> implements io.reactivex.Observer<T> {
     @Override
     public void onError(Throwable e) {
         //自定义异常的传递
-        OnFail(ExceptionHandle.handleException(e));
+        OnFail(new DefaultRxErrorHandler().handleException(e));
     }
 
     @Override
@@ -31,11 +34,11 @@ public abstract class Observer<T> implements io.reactivex.Observer<T> {
 
     public abstract void OnSuccess(T t);
 
-    public abstract void OnFail(ExceptionHandle.ResponeThrowable e);
+    public abstract void OnFail(ResponseException e);
 
     public abstract void OnCompleted();
 
-    public abstract void OnDisposable(Disposable d);
+    public abstract void OnAddDisposable(Disposable d);
 
     public abstract void onStart();
 }

@@ -1,10 +1,10 @@
 package com.xingqi.code.commondemo.mvp.presenter;
 
 import com.xingqi.code.commonlib.mvp.BasePresenter;
-import com.xingqi.code.commonlib.mvp.ExceptionHandle;
 import com.xingqi.code.commonlib.mvp.Observer;
 import com.xingqi.code.commondemo.mvp.contract.HotKeyWordContract;
 import com.xingqi.code.commondemo.mvp.model.entity.HotKeyWord;
+import com.xingqi.code.commonlib.rx.ResponseException;
 
 import java.util.List;
 
@@ -36,7 +36,7 @@ public class HotKeyWordPresenter extends BasePresenter<HotKeyWordContract.Model,
                     }
 
                     @Override
-                    public void OnFail(ExceptionHandle.ResponeThrowable e) {
+                    public void OnFail(ResponseException e) {
                         mView.showMessage(e.message);
                     }
 
@@ -46,7 +46,7 @@ public class HotKeyWordPresenter extends BasePresenter<HotKeyWordContract.Model,
                     }
 
                     @Override
-                    public void OnDisposable(Disposable d) {
+                    public void OnAddDisposable(Disposable d) {
                         addDispose(d);
                     }
 
