@@ -51,5 +51,12 @@ dependencies {
     api 'com.github.tbruyelle:rxpermissions:0.10.2'
     api 'androidx.recyclerview:recyclerview:1.1.0'
 
+    api 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+    api 'com.github.bumptech.glide:okhttp3-integration:4.11.0'
+    implementation 'org.jetbrains:annotations:15.0'
+
+    api 'me.jessyan:autosize:1.2.1'
+
 
 }

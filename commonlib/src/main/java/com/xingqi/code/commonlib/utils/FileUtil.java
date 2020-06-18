@@ -22,4 +22,11 @@ public class FileUtil {
         return false;
     }
 
+    public static File makeDirs(File file) {
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        return file;
+    }
+
 }

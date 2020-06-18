@@ -8,17 +8,22 @@ import android.os.Handler;
 import androidx.fragment.app.FragmentManager;
 
 import com.threshold.rxbus2.RxBus;
+import com.xingqi.code.commonlib.config.GlobalConfig;
 import com.xingqi.code.commonlib.delegate.ActivityDelegate;
 import com.xingqi.code.commonlib.delegate.FragmentDelegate;
+import com.xingqi.code.commonlib.imageloader.glide.GlideImageLoaderStrategy;
 import com.xingqi.code.commonlib.lifecycle.SysActivityLifecycleCallback;
 import com.xingqi.code.commonlib.lifecycle.SysFragmentLifecycleCallback;
+import com.xingqi.code.commonlib.utils.StorageDirUtil;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import okhttp3.OkHttpClient;
 
 public abstract class BaseApplication extends Application {
     private static Context context;
@@ -28,11 +33,18 @@ public abstract class BaseApplication extends Application {
 
     public final static Map<Integer, ActivityDelegate> activityDelegateMap = new HashMap<>();
     public final static Map<Integer, FragmentDelegate> fragmentDelegateMap = new HashMap<>();
+
+    public static GlobalConfig globalConfig;
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         activityLifecycleCallbacksList.add(new SysActivityLifecycleCallback());
         fragmentLifecycleCallbacksList.add(new SysFragmentLifecycleCallback());
+        globalConfig = GlobalConfig.with(this)
+                .cacheDir(new File(StorageDirUtil.getPublicExternalPicDir()))
+                .imageLoaderStrategy(new GlideImageLoaderStrategy())
+                .okHttpClient(new OkHttpClient.Builder().build())
+                .build();
     }
 
     @Override
@@ -63,6 +75,11 @@ public abstract class BaseApplication extends Application {
     public static Handler getHandler(){
         return handler;
     }
+
+    public static GlobalConfig getGlobalConfig() {
+        return globalConfig;
+    }
+
     protected abstract void addActivityCallback(List<ActivityLifecycleCallbacks> activityLifecycleCallbacksList);
 
     protected abstract void addFragmentCallback(List<FragmentManager.FragmentLifecycleCallbacks> fragmentLifecycleCallbacksList);
