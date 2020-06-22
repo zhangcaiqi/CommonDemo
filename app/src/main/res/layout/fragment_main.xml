@@ -27,5 +27,12 @@
         android:id="@+id/jump_to_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="跳转到图片框架"
         app:layout_constraintTop_toBottomOf="@id/jump_to_complex"/>
+    <Button
+        android:id="@+id/jump_to_indicator"
+        android:text="跳转到指示器"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/jump_to_image"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

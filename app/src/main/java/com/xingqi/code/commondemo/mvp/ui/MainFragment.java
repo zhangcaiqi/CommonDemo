@@ -27,6 +27,8 @@ public class MainFragment extends BaseFragment<HotKeyWordPresenter> implements H
     Button jumpToComplex;
     @BindView(R.id.jump_to_image)
     Button jumpToImage;
+    @BindView(R.id.jump_to_indicator)
+    Button jumpToIndicator;
 
     @Override
     public int getLayoutId() {
@@ -95,5 +97,10 @@ public class MainFragment extends BaseFragment<HotKeyWordPresenter> implements H
     @OnClick(R.id.jump_to_image)
     public void jumpToImage() {
         CommonUtils.startActivity(ImageLoaderActivity.class);
+    }
+
+    @OnClick(R.id.jump_to_indicator)
+    public void jumpToIndicator() {
+        CommonUtils.startActivity(IndicatorActivity.class);
     }
 }
