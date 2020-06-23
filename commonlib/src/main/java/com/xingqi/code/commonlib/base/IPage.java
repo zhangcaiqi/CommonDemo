@@ -1,6 +1,13 @@
 package com.xingqi.code.commonlib.base;
 
-public interface IToolbar {
+import android.content.Context;
+
+public interface IPage {
+    int getLayoutId();
+
+    void initData();
+
+    boolean registerRxBus();
 
     boolean hasToolbar();
 
@@ -15,4 +22,10 @@ public interface IToolbar {
     boolean darkStatusBarText();
 
     void onNavigateClick();
+
+    void release();
+
+    void disposable();
+
+    Context getOwnContext();
 }

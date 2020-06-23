@@ -1,8 +1,10 @@
 package com.xingqi.code.commondemo.mvp.ui;
 
+import android.util.Log;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 
 import com.threshold.rxbus2.RxBus;
 import com.xingqi.code.commondemo.R;
@@ -11,6 +13,8 @@ import com.xingqi.code.commondemo.mvp.model.HotKeyWordModel;
 import com.xingqi.code.commondemo.mvp.model.entity.HotKeyWord;
 import com.xingqi.code.commondemo.mvp.presenter.HotKeyWordPresenter;
 import com.xingqi.code.commonlib.base.BaseFragment;
+import com.xingqi.code.commonlib.dialog.LoadingDialog;
+import com.xingqi.code.commonlib.manager.LoadingDialogManager;
 import com.xingqi.code.commonlib.utils.CommonUtils;
 
 import java.util.List;
@@ -79,10 +83,24 @@ public class MainFragment extends BaseFragment<HotKeyWordPresenter> implements H
         }
     }
 
+    private static final String TAG = "MainFragment";
     @Override
     public void showMessage(@NonNull String message) {
+        Log.e(TAG, "showMessage: "+message);
+    }
+
+    @Override
+    public  void showLoading() {
+
+        LoadingDialogManager.getInstance().showLoading(getActivity().getSupportFragmentManager()                                                                                                                                                                                                                                                                                                                                                                                                                      );
 
     }
+
+    @Override
+    public  void hideLoading() {
+        LoadingDialogManager.getInstance().hideLoading();
+    }
+
 
     @OnClick(R.id.jump_to_page)
     public void jumpToPage() {

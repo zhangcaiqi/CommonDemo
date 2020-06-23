@@ -1,6 +1,5 @@
 package com.xingqi.code.commondemo.mvp.ui;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.FrameLayout;
@@ -17,6 +16,8 @@ import com.xingqi.code.commondemo.mvp.model.HotKeyWordModel;
 import com.xingqi.code.commondemo.mvp.model.entity.HotKeyWord;
 import com.xingqi.code.commondemo.mvp.presenter.HotKeyWordPresenter;
 import com.xingqi.code.commonlib.base.BaseActivity;
+import com.xingqi.code.commonlib.dialog.LoadingDialog;
+import com.xingqi.code.commonlib.manager.LoadingDialogManager;
 import com.xingqi.code.commonlib.rx.ResponseException;
 import com.xingqi.code.commonlib.rx.RxErrorHandler;
 import com.xingqi.code.commonlib.utils.PermissionUtil;
@@ -126,6 +127,18 @@ public class MainActivity extends BaseActivity<HotKeyWordPresenter> implements H
 
     @Override
     public void showMessage(@NonNull String message) {
-        Log.i(TAG, "showMessage: " + message);
+        Log.e(TAG, "showMessage: " + message);
     }
+    @Override
+    public  void showLoading() {
+
+        LoadingDialogManager.getInstance().showLoading(getSupportFragmentManager());
+
+    }
+
+    @Override
+    public  void hideLoading() {
+        LoadingDialogManager.getInstance().hideLoading();
+    }
+
 }

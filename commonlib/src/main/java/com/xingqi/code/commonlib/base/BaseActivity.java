@@ -1,5 +1,6 @@
 package com.xingqi.code.commonlib.base;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -63,9 +64,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     }
     @Override
     protected void onDestroy() {
-        if (null != mCompositeDisposable) {
-            mCompositeDisposable.clear();
-        }
+        disposable();
         if (mUnbinder != null && mUnbinder != Unbinder.EMPTY) {
             mUnbinder.unbind();
         }
@@ -73,7 +72,16 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         release();
         super.onDestroy();
     }
-
+    @Override
+    public void disposable(){
+        if (null != mCompositeDisposable) {
+            mCompositeDisposable.clear();
+        }
+    }
+    @Override
+    public Context getOwnContext(){
+        return this;
+    }
     @Override
     public int toolbarColor() {
         return R.color.colorPrimary;

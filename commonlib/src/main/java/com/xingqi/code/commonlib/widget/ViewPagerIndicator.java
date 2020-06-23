@@ -44,7 +44,7 @@ public class ViewPagerIndicator extends LinearLayout implements ViewPager.OnPage
     //指示器高度
     private int indicatorHeight = 8;
     //指示器和标题之间的间隙
-    private int indicatorSpacing = 8;
+    private int indicatorSpacing = 10;
 
     private ViewPager viewPager;
 
@@ -61,6 +61,7 @@ public class ViewPagerIndicator extends LinearLayout implements ViewPager.OnPage
     //viewpager回调中的position,上述position会随着offset改变，用于计算向左还是向右滑动
     private int selectedPosition;
 
+    private int maxMeasureHeight;
 
 
     public ViewPagerIndicator(Context context) {
@@ -89,14 +90,18 @@ public class ViewPagerIndicator extends LinearLayout implements ViewPager.OnPage
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setStrokeWidth(indicatorHeight);
 
+        setBaselineAligned(false);
+        setGravity(Gravity.BOTTOM);
+
+        setPadding(0,0,0,indicatorSpacing);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int mode = MeasureSpec.getMode(heightMeasureSpec);
-        int measuredHeight = getMeasuredHeight();
-        int newHeight = indicatorHeight + indicatorSpacing + measuredHeight;
+        maxMeasureHeight = Math.max(maxMeasureHeight,getMeasuredHeight());
+        int newHeight = indicatorHeight  + maxMeasureHeight;
         int newHeightMeasureSpec = MeasureSpec.makeMeasureSpec(newHeight,mode);
         setMeasuredDimension(widthMeasureSpec,newHeightMeasureSpec);
     }
@@ -191,7 +196,8 @@ public class ViewPagerIndicator extends LinearLayout implements ViewPager.OnPage
 
         mCanvas.save();
         mCanvas.translate(indicatorOffsetX,0);
-        int y =  getMeasuredHeight() - indicatorHeight;
+
+        int y =  maxMeasureHeight ;
         mCanvas.drawLine(startX,y,endX,y,mPaint);
         mCanvas.restore();
     }

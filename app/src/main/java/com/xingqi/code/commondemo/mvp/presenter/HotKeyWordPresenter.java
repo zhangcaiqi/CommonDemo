@@ -37,6 +37,7 @@ public class HotKeyWordPresenter extends BasePresenter<HotKeyWordContract.Model,
 
                     @Override
                     public void OnFail(ResponseException e) {
+                        mView.hideLoading();
                         mView.showMessage(e.message);
                     }
 

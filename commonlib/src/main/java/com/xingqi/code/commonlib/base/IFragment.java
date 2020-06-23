@@ -1,12 +1,5 @@
 package com.xingqi.code.commonlib.base;
 
-public interface IFragment extends IToolbar{
+public interface IFragment extends IPage {
 
-    int getLayoutId();
-
-    void release();
-
-    void initData();
-
-    boolean registerRxBus();
 }

@@ -1,5 +1,6 @@
 package com.xingqi.code.commonlib.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,11 +55,19 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     protected abstract P initPresenter();
     @Override
     public void onDestroy() {
+        disposable();
+        release();
+        super.onDestroy();
+    }
+    @Override
+    public void disposable(){
         if (null != mCompositeDisposable) {
             mCompositeDisposable.clear();
         }
-        release();
-        super.onDestroy();
+    }
+    @Override
+    public Context getOwnContext(){
+        return getActivity();
     }
     @Override
     public int toolbarColor() {
