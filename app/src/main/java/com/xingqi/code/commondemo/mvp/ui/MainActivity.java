@@ -8,15 +8,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.threshold.rxbus2.annotation.RxSubscribe;
-import com.threshold.rxbus2.util.EventThread;
 import com.xingqi.code.commondemo.R;
 import com.xingqi.code.commondemo.mvp.contract.HotKeyWordContract;
 import com.xingqi.code.commondemo.mvp.model.HotKeyWordModel;
 import com.xingqi.code.commondemo.mvp.model.entity.HotKeyWord;
 import com.xingqi.code.commondemo.mvp.presenter.HotKeyWordPresenter;
 import com.xingqi.code.commonlib.base.BaseActivity;
-import com.xingqi.code.commonlib.dialog.LoadingDialog;
+import com.xingqi.code.commonlib.entity.EventMessage;
 import com.xingqi.code.commonlib.manager.LoadingDialogManager;
 import com.xingqi.code.commonlib.rx.ResponseException;
 import com.xingqi.code.commonlib.rx.RxErrorHandler;
@@ -64,6 +62,18 @@ public class MainActivity extends BaseActivity<HotKeyWordPresenter> implements H
     }
 
     @Override
+    public void onReceiveEvent(EventMessage event) {
+        String message = (String) event.getData();
+        textView.setText(message);
+    }
+
+    @Override
+    public boolean registerEventBus() {
+        return true;
+    }
+
+
+    @Override
     protected HotKeyWordPresenter initPresenter() {
         return new HotKeyWordPresenter(new HotKeyWordModel(), this);
     }
@@ -96,16 +106,6 @@ public class MainActivity extends BaseActivity<HotKeyWordPresenter> implements H
         getSupportFragmentManager().beginTransaction().replace(R.id.container,mainFragment,"mainFragment").commit();
     }
 
-    @Override
-    public boolean registerRxBus() {
-        return true;
-    }
-    @RxSubscribe(observeOnThread = EventThread.MAIN)
-    public void listenRxIntegerEvent(String code) {
-        String text = String.format("{ Receive event: %s\nCurrent thread: %s }", code, Thread.currentThread());
-        Log.d("RxBus",text);
-        textView.setText(code);
-    }
 
     @Override
     public boolean hasToolbar() {

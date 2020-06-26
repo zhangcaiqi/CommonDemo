@@ -10,14 +10,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.trello.rxlifecycle2.android.FragmentEvent;
 import com.xingqi.code.commonlib.R;
+import com.xingqi.code.commonlib.entity.EventMessage;
 import com.xingqi.code.commonlib.mvp.BasePresenter;
+import com.xingqi.code.commonlib.rxlifecycle.FragmentLifecycleable;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subjects.Subject;
 
-public abstract class BaseFragment<P extends BasePresenter> extends Fragment implements IFragment{
+public abstract class BaseFragment<P extends BasePresenter> extends Fragment implements IFragment, FragmentLifecycleable {
     protected P mPresenter;
+    private final BehaviorSubject<FragmentEvent> mLifecycleSubject = BehaviorSubject.create();
     public static <T extends BaseFragment> T getInstance(Bundle bundle,Class<T> fragmentClass){
         try {
             T t = fragmentClass.newInstance();
@@ -39,6 +48,20 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
         }
         mCompositeDisposable.add(disposable);
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onReceiveEvent(EventMessage event) {
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onReceiveStickyEvent(EventMessage event) {
+    }
+
+    @Override
+    public boolean registerEventBus() {
+        return false;
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(getLayoutId(),container,false);
@@ -92,5 +115,10 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     @Override
     public void onNavigateClick() {
         getActivity().onBackPressed();
+    }
+
+    @Override
+    public final Subject<FragmentEvent> provideLifecycleSubject() {
+        return mLifecycleSubject;
     }
 }

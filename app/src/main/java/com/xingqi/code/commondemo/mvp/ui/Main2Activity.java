@@ -54,10 +54,6 @@ public class Main2Activity extends BaseActivity<HotKeyWordPresenter> implements 
         mPresenter.getHotWordList();
     }
 
-    @Override
-    public boolean registerRxBus() {
-        return false;
-    }
 
     @Override
     public boolean hasToolbar() {

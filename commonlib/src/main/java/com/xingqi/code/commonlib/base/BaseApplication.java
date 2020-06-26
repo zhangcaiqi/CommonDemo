@@ -7,13 +7,13 @@ import android.os.Handler;
 
 import androidx.fragment.app.FragmentManager;
 
-import com.threshold.rxbus2.RxBus;
 import com.xingqi.code.commonlib.config.GlobalConfig;
 import com.xingqi.code.commonlib.delegate.ActivityDelegate;
 import com.xingqi.code.commonlib.delegate.FragmentDelegate;
 import com.xingqi.code.commonlib.imageloader.glide.GlideImageLoaderStrategy;
 import com.xingqi.code.commonlib.lifecycle.SysActivityLifecycleCallback;
 import com.xingqi.code.commonlib.lifecycle.SysFragmentLifecycleCallback;
+import com.xingqi.code.commonlib.rxlifecycle.ActivityLifecycleForRxLifecycle;
 import com.xingqi.code.commonlib.utils.StorageDirUtil;
 
 import java.io.File;
@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import okhttp3.OkHttpClient;
 
 public abstract class BaseApplication extends Application {
@@ -39,6 +38,7 @@ public abstract class BaseApplication extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         activityLifecycleCallbacksList.add(new SysActivityLifecycleCallback());
+        activityLifecycleCallbacksList.add(new ActivityLifecycleForRxLifecycle());
         fragmentLifecycleCallbacksList.add(new SysFragmentLifecycleCallback());
         globalConfig = GlobalConfig.with(this)
                 .cacheDir(new File(StorageDirUtil.getPublicExternalPicDir()))
@@ -52,8 +52,6 @@ public abstract class BaseApplication extends Application {
         super.onCreate();
         context = getApplicationContext();
         handler = new Handler();
-        //在Android中使用注解（RxSubscribe）在主线程（UI线程）上处理订阅的事件
-        RxBus.setMainScheduler(AndroidSchedulers.mainThread());
         for(Application.ActivityLifecycleCallbacks activityLifecycleCallbacks:activityLifecycleCallbacksList){
             registerActivityLifecycleCallbacks(activityLifecycleCallbacks);
         }

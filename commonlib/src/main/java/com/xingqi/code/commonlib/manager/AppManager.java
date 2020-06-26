@@ -21,6 +21,7 @@ import android.app.Dialog;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Message;
 import android.view.View;
 
@@ -96,7 +97,13 @@ public final class AppManager {
     public void startActivity(Class activityClass) {
         startActivity(new Intent(context, activityClass));
     }
-
+    public void startActivity(Class<?> activityClass, Bundle bundle){
+        Intent intent = new Intent(context,activityClass);
+        if(null != bundle){
+            intent.putExtras(bundle);
+        }
+        startActivity(intent);
+    }
     /**
      * 释放资源
      */

@@ -8,12 +8,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
-import com.threshold.rxbus2.RxBus;
 import com.xingqi.code.commonlib.base.BaseApplication;
 import com.xingqi.code.commonlib.base.IActivity;
 import com.xingqi.code.commonlib.manager.AppManager;
+import com.xingqi.code.commonlib.utils.EventBusUtil;
 
 import java.util.List;
+
 
 
 public class ActivityDelegateImpl implements ActivityDelegate{
@@ -32,11 +33,10 @@ public class ActivityDelegateImpl implements ActivityDelegate{
         if(isAppSelfActivity()){
             iActivity = (IActivity) activity;
         }
-
-        mAppManager.addActivity(activity);
-        if(iActivity.registerRxBus()){
-            RxBus.getDefault().register(activity);
+        if (null != iActivity && iActivity.registerEventBus()) {
+            EventBusUtil.register(activity);
         }
+        mAppManager.addActivity(activity);
         //放置最后，框架外部的扩展回调
         List<FragmentManager.FragmentLifecycleCallbacks> fragmentLifecycleCallbackList
                 = BaseApplication.fragmentLifecycleCallbacksList;
@@ -82,8 +82,8 @@ public class ActivityDelegateImpl implements ActivityDelegate{
 //        for(FragmentManager.FragmentLifecycleCallbacks fragmentLifecycleCallbacks:fragmentLifecycleCallbackList){
 //            ((AppCompatActivity)activity).getSupportFragmentManager().unregisterFragmentLifecycleCallbacks(fragmentLifecycleCallbacks);
 //        }
-        if(iActivity.registerRxBus()){
-            RxBus.getDefault().unregister(this);
+        if (null != iActivity && iActivity.registerEventBus()) {
+            EventBusUtil.unregister(activity);
         }
         mAppManager.removeActivity(activity);
     }

@@ -25,10 +25,6 @@ public class FragmentOne extends BaseFragment {
 
     }
 
-    @Override
-    public boolean registerRxBus() {
-        return false;
-    }
 
     @Override
     public boolean hasToolbar() {

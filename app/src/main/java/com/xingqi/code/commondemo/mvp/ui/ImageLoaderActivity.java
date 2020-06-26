@@ -6,9 +6,11 @@ import android.widget.ImageView;
 
 import com.xingqi.code.commondemo.R;
 import com.xingqi.code.commonlib.base.BaseActivity;
+import com.xingqi.code.commonlib.entity.EventMessage;
 import com.xingqi.code.commonlib.imageloader.ImageLoader;
 import com.xingqi.code.commonlib.imageloader.glide.ImageConfigImpl;
 import com.xingqi.code.commonlib.mvp.BasePresenter;
+import com.xingqi.code.commonlib.utils.ToastUtil;
 
 import butterknife.BindView;
 
@@ -21,6 +23,19 @@ public class ImageLoaderActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
+    @Override
+    public void onReceiveStickyEvent(EventMessage event) {
+        String message = (String) event.getData();
+        ToastUtil.toast(this,message);
+    }
+
+    @Override
+    public boolean registerEventBus() {
+        return true;
+    }
+
+
 
     @Override
     protected BasePresenter initPresenter() {
@@ -58,10 +73,6 @@ public class ImageLoaderActivity extends BaseActivity {
                         .build());
     }
 
-    @Override
-    public boolean registerRxBus() {
-        return false;
-    }
 
     @Override
     public boolean hasToolbar() {

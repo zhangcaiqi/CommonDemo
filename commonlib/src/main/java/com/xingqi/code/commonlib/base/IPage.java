@@ -2,12 +2,16 @@ package com.xingqi.code.commonlib.base;
 
 import android.content.Context;
 
+
 public interface IPage {
+
+
     int getLayoutId();
 
     void initData();
 
-    boolean registerRxBus();
+    boolean registerEventBus();
+
 
     boolean hasToolbar();
 

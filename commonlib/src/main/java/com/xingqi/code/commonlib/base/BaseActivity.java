@@ -6,23 +6,33 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.trello.rxlifecycle2.android.ActivityEvent;
 import com.xingqi.code.commonlib.R;
+import com.xingqi.code.commonlib.entity.EventMessage;
 import com.xingqi.code.commonlib.mvp.BasePresenter;
+import com.xingqi.code.commonlib.rx.RxUtil;
+import com.xingqi.code.commonlib.rxlifecycle.ActivityLifecycleable;
 import com.xingqi.code.commonlib.swipeback.SwipeBackActivityHelper;
 import com.xingqi.code.commonlib.swipeback.SwipeBackLayout;
 import com.xingqi.code.commonlib.utils.CommonUtils;
 import com.xingqi.code.commonlib.utils.ScreenUtil;
 import com.xingqi.code.commonlib.utils.ToastUtil;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subjects.Subject;
 
-public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity implements IActivity {
+public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity implements IActivity, ActivityLifecycleable {
     protected P mPresenter;
     private SwipeBackActivityHelper mHelper;
     private Unbinder mUnbinder;
+    private final BehaviorSubject<ActivityEvent> mLifecycleSubject = BehaviorSubject.create();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +56,19 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         mPresenter = initPresenter();
         initData();
     }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onReceiveEvent(EventMessage event) {
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onReceiveStickyEvent(EventMessage event) {
+    }
+
+    @Override
+    public boolean registerEventBus() {
+        return false;
+    }
+
     @Override
     public void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -139,5 +162,9 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         } else {
             CommonUtils.exitApp();
         }
+    }
+    @Override
+    public final Subject<ActivityEvent> provideLifecycleSubject() {
+        return mLifecycleSubject;
     }
 }

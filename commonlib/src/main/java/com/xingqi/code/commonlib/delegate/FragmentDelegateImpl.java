@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import com.xingqi.code.commonlib.base.DefaultAppStyleImpl;
 import com.xingqi.code.commonlib.base.IAppStyle;
 import com.xingqi.code.commonlib.base.IFragment;
+import com.xingqi.code.commonlib.utils.EventBusUtil;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -46,7 +47,9 @@ public class FragmentDelegateImpl implements FragmentDelegate {
                 .setListener((v -> {iFragment.onNavigateClick();}))
                 .build();
         iAppStyle.setAppBarStyle();
-
+        if (iFragment.registerEventBus()) {
+            EventBusUtil.register(fragment);
+        }
     }
 
     @Override
@@ -95,10 +98,14 @@ public class FragmentDelegateImpl implements FragmentDelegate {
                 //fix Bindings already cleared
             }
         }
+
     }
 
     @Override
     public void onDestroy() {
+        if (null != iFragment && iFragment.registerEventBus()) {
+            EventBusUtil.unregister(fragment);
+        }
         this.unbinder = null;
         this.fragmentManager = null;
         this.fragment = null;

@@ -5,6 +5,7 @@ import com.xingqi.code.commonlib.mvp.Observer;
 import com.xingqi.code.commondemo.mvp.contract.HotKeyWordContract;
 import com.xingqi.code.commondemo.mvp.model.entity.HotKeyWord;
 import com.xingqi.code.commonlib.rx.ResponseException;
+import com.xingqi.code.commonlib.rx.RxUtil;
 
 import java.util.List;
 
@@ -56,6 +57,33 @@ public class HotKeyWordPresenter extends BasePresenter<HotKeyWordContract.Model,
                         mView.showLoading();
                     }
                 });
+//        mModel.getHotKeyWordList().compose(RxUtil.applySchedulers(mView)).
+//                subscribe(new Observer<List<HotKeyWord>>() {
+//                    @Override
+//                    public void OnSuccess(List<HotKeyWord> hotKeyWords) {
+//                        mView.showKeyWord(hotKeyWords);
+//                    }
+//
+//                    @Override
+//                    public void OnFail(ResponseException e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void OnCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void OnAddDisposable(Disposable d) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onStart() {
+//
+//                    }
+//                });
     }
 
 }

@@ -88,10 +88,6 @@ public class RecyclePaginateActivity extends BaseActivity implements Paginate.Ca
 
     }
 
-    @Override
-    public boolean registerRxBus() {
-        return false;
-    }
 
     @Override
     public boolean hasToolbar() {

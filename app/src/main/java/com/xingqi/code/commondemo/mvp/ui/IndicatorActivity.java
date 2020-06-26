@@ -88,10 +88,6 @@ public class IndicatorActivity extends BaseActivity {
         viewpager.setCurrentItem(0);
     }
 
-    @Override
-    public boolean registerRxBus() {
-        return false;
-    }
 
     @Override
     public boolean hasToolbar() {

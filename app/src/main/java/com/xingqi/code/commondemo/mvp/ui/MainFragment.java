@@ -4,18 +4,17 @@ import android.util.Log;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
 
-import com.threshold.rxbus2.RxBus;
 import com.xingqi.code.commondemo.R;
 import com.xingqi.code.commondemo.mvp.contract.HotKeyWordContract;
 import com.xingqi.code.commondemo.mvp.model.HotKeyWordModel;
 import com.xingqi.code.commondemo.mvp.model.entity.HotKeyWord;
 import com.xingqi.code.commondemo.mvp.presenter.HotKeyWordPresenter;
 import com.xingqi.code.commonlib.base.BaseFragment;
-import com.xingqi.code.commonlib.dialog.LoadingDialog;
+import com.xingqi.code.commonlib.entity.EventMessage;
 import com.xingqi.code.commonlib.manager.LoadingDialogManager;
 import com.xingqi.code.commonlib.utils.CommonUtils;
+import com.xingqi.code.commonlib.utils.EventBusUtil;
 
 import java.util.List;
 
@@ -50,10 +49,6 @@ public class MainFragment extends BaseFragment<HotKeyWordPresenter> implements H
         mPresenter.getHotWordList();
     }
 
-    @Override
-    public boolean registerRxBus() {
-        return false;
-    }
 
 
     @Override
@@ -68,7 +63,7 @@ public class MainFragment extends BaseFragment<HotKeyWordPresenter> implements H
 
     @OnClick(R.id.send_msg_btn)
     public void onViewClicked() {
-        RxBus.getDefault().post("12345");
+        EventBusUtil.post(new EventMessage(2,"sddfsdf"));
     }
 
     @Override
@@ -115,6 +110,7 @@ public class MainFragment extends BaseFragment<HotKeyWordPresenter> implements H
     @OnClick(R.id.jump_to_image)
     public void jumpToImage() {
         CommonUtils.startActivity(ImageLoaderActivity.class);
+        EventBusUtil.postSticky(new EventMessage(1,"sticky"));
     }
 
     @OnClick(R.id.jump_to_indicator)

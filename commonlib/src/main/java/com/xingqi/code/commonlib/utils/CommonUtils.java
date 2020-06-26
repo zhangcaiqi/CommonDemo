@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.SpannedString;
@@ -266,6 +267,9 @@ public class CommonUtils {
         AppManager.getAppManager().startActivity(activityClass);
     }
 
+    public void startActivity(Class<?> activityClass, Bundle bundle){
+        AppManager.getAppManager().startActivity(activityClass,bundle);
+    }
     /**
      * 跳转界面 2, 通过 {@link AppManager#startActivity(Intent)}
      *

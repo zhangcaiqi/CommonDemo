@@ -64,10 +64,6 @@ public class ComplexActivity extends BaseActivity {
                 .build();
     }
 
-    @Override
-    public boolean registerRxBus() {
-        return false;
-    }
 
     @Override
     public boolean hasToolbar() {
